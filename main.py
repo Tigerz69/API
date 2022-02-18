@@ -7,14 +7,11 @@ app = Flask(__name__)
 @app.route('/send',methods={'POST'})
 def input():
     if request.method == 'POST':
-        print (type(request.data))
-        byte_str =  request.data
-        dict_str = byte_str.decode("UTF-8")
-        mydata = ast.literal_eval(dict_str)
-        print('mydata'+str(mydata['distanceArray']))
-        V = mydata['num']
-        MP = mydata['distanceArray']
-        TL = mydata['timeArray']
+        print (type(request.get_jason()))
+        body = request.get_jason()
+        V = body['num']
+        MP = body['distanceArray']
+        TL = body['timeArray']
         print(V)
         print (MP)
         print(TL)
