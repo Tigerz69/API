@@ -4,7 +4,7 @@ from random import randint
 
 app = Flask(__name__)
 
-distance=0
+
 duration=0
 temp_fit = 2147483647
 best_gnome = ""
@@ -17,24 +17,26 @@ def input():
     if request.method == 'POST':
         #print (type(request.get_json()))
         body = request.get_json()
-        global V,MP,TL
+        global V,MP,TL,duration,temp_fit,best_gnome
         V = body['num']
         MP = body['distanceArray']
         TL = body['timeArray']
         print(V)
         print (MP)
         print(TL)
-        
-    return {"message":"got parameters"}
+        POP_SIZE=10
+        TSPUtil(V,MP,TL,POP_SIZE)
+        duration=cal_duration(best_gnome,TL)
+
+    return {"success":"got parameters and already cal"}
 
 @app.route('/get',methods={'GET'})
 def output():
-    POP_SIZE=10
-    TSPUtil(V,MP,TL,POP_SIZE)
-    global distance,duration
-    distance=temp_fit
-    duration=cal_duration(best_gnome,TL)
-    return {"distance":distance},{"duration":duration},{"gnome":best_gnome}
+
+    dis=temp_fit
+    dur=duration
+    b_gnome=best_gnome
+    return {"distance":dis},{"duration":dur},{"gnome":b_gnome}
 
 class individual:
     def __init__(self) -> None:
@@ -180,10 +182,11 @@ def TSPUtil(v,mp,tl,pop_size):
 
         
         for i in range(POP_SIZE):
+            global temp_fit,best_gnome
             if temp_fit > population[i].fitness:
                 temp_fit = population[i].fitness
                 best_gnome = population[i].gnome
-                duration = 
+    
         print('distance'+str(temp_fit))
         print('best_gnome'+str(best_gnome))
 
