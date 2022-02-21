@@ -4,21 +4,37 @@ from random import randint
 
 app = Flask(__name__)
 
+distance=0
+duration=0
+temp_fit = 2147483647
+best_gnome = ""
+V=0
+MP=[]
+TL=[]
+
 @app.route('/send',methods={'POST'})
 def input():
     if request.method == 'POST':
-        print (type(request.get_jason()))
-        body = request.get_jason()
+        #print (type(request.get_json()))
+        body = request.get_json()
+        global V,MP,TL
         V = body['num']
         MP = body['distanceArray']
         TL = body['timeArray']
         print(V)
         print (MP)
         print(TL)
-        POP_SIZE=10
-        TSPUtil(V,MP,TL,POP_SIZE)
+        
     return {"message":"got parameters"}
 
+@app.route('/get',methods={'GET'})
+def output():
+    POP_SIZE=10
+    TSPUtil(V,MP,TL,POP_SIZE)
+    global distance,duration
+    distance=temp_fit
+    duration=cal_duration(best_gnome,TL)
+    return {"distance":distance},{"duration":duration},{"gnome":best_gnome}
 
 class individual:
     def __init__(self) -> None:
@@ -77,7 +93,14 @@ def cal_fitness(gnome,arr):
  
     return f
  
+def cal_duration(gnome,arr):
+    tl = arr
+    t = 0
+    for i in range(len(gnome) - 1):
+        
+        t += tl[ord(gnome[i]) - 48][ord(gnome[i + 1]) - 48]
  
+    return t
 
 def cooldown(temp):
     return (90 * temp) / 100
@@ -93,6 +116,7 @@ def TSPUtil(v,mp,tl,pop_size):
     gen_thres = 5
  
     population = []
+    
     temp = individual()
  
     # Populating the GNOME pool.
@@ -149,10 +173,19 @@ def TSPUtil(v,mp,tl,pop_size):
         population = new_population
         print("Generation", gen)
         print("GNOME     FITNESS VALUE")
- 
+        
         for i in range(POP_SIZE):
             print(population[i].gnome, population[i].fitness)
         gen += 1
+
+        
+        for i in range(POP_SIZE):
+            if temp_fit > population[i].fitness:
+                temp_fit = population[i].fitness
+                best_gnome = population[i].gnome
+                duration = 
+        print('distance'+str(temp_fit))
+        print('best_gnome'+str(best_gnome))
 
 
 if __name__ == '__main__':
