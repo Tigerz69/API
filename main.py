@@ -9,7 +9,18 @@ duration=0
 temp_fit = 2147483647
 best_gnome = ""
 
-
+@app.route('/send2point',methods={'post'})
+def input2():
+    body2 = request.get_json()
+    print(body2)
+    global duration,temp_fit,best_gnome
+    duration = body2['duration']
+    temp_fit = body2['distance']
+    best_gnome = '01'
+    print(duration)
+    print(temp_fit)
+    print(best_gnome)
+    return {"success":"got parameters for 2 point and already cal"}
 @app.route('/send',methods={'POST'})
 def input():
     if request.method == 'POST':
