@@ -43,12 +43,17 @@ def input():
 
 @app.route('/get',methods={'GET'})
 def output():
+    global duration,temp_fit,best_gnome
     print('distance in output'+str(temp_fit))
     print('gnome in output'+str(best_gnome))
     print('duration in output'+str(duration))
     dis=temp_fit
     dur=duration
     b_gnome=best_gnome
+    
+    duration=0
+    temp_fit = 2147483647
+    best_gnome = ""
     return {"distance":dis,"duration":dur,"gnome":b_gnome}
 
 class individual:
