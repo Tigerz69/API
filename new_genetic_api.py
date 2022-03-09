@@ -248,7 +248,6 @@ def Genetic(v,mp,pop_size):
             print(population[i].gnome, 1/population[i].fitness,population[i].fitness)
         if gen==gen_thres:
             population.sort()
-            global best_gnome,distance
             best_gnome=population[0].gnome
             distance=population[0].fitness
             print('best gnome this generation :'+str(population[0].gnome)+' fitness:'+str(1/population[0].fitness))
