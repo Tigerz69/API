@@ -260,5 +260,6 @@ def Genetic(v,mp,pop_size):
         
 
 if __name__ == '__main__':
-     app.run(host='192.168.1.100', port=5002,debug=True)
+     app.run(host='192.168.1.102', port=5002,debug=True)
      
+
