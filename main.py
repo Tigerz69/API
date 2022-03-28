@@ -1,4 +1,4 @@
-from flask import Flask,request
+from flask import Flask,request,render_template
 from random import randint
 
 app = Flask(__name__)
@@ -39,6 +39,10 @@ def input():
         print('gnome in input'+str(best_gnome))
         print('duration in input'+str(duration))
     return {"success":"got parameters and already cal"}
+
+@app.route("/")
+def homepage():
+    return render_template("index.html", title="HOME PAGE")
 
 @app.route('/get',methods={'GET'})
 def output():
@@ -260,6 +264,6 @@ def Genetic(v,mp,pop_size):
         
 
 if __name__ == '__main__':
-     app.run(host='192.168.1.102', port=5002,debug=True)
+     app.run(host='0.0.0.0',port='8080',debug=True)
      
 
