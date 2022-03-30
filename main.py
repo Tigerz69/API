@@ -7,6 +7,25 @@ app = Flask(__name__)
 duration=0
 distance = 0
 best_gnome = ""
+location =None
+
+@app.route('/sendLocation',methods={'post'})
+def sendLocation():
+    
+    body = request.get_json()
+    print(body)
+    
+    return {"location":body}
+
+@app.route('/getLocation',methods={'get'})
+def getLocation():
+    
+    print('got location ',location)
+    loc=location
+        
+        
+    
+    return {"location":loc}
 
 @app.route('/send2point',methods={'post'})
 def input2():
